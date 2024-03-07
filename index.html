@@ -1,0 +1,57 @@
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contador de Dias Sem Encomenda</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 50px;
+        }
+        #contador {
+            font-size: 24px;
+            margin: 20px;
+        }
+        button {
+            font-size: 20px;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>Estamos a <span id="contador">XXX</span> dias<br>Sem receber uma encomenda da Clara.</h2>
+    <button onclick="resetarContador()">Chegou uma encomenda hoje</button>
+
+    <script>
+        // Definir a data da última encomenda
+        let ultimaEncomenda = localStorage.getItem('ultimaEncomenda');
+        if (!ultimaEncomenda) {
+            // Define uma data de início padrão, se não houver uma salva
+            ultimaEncomenda = new Date().setHours(0,0,0,0); // Define para hoje à meia-noite
+            localStorage.setItem('ultimaEncomenda', ultimaEncomenda);
+        }
+
+        function calcularDias() {
+            const agora = new Date().getTime();
+            const diferenca = agora - ultimaEncomenda;
+            const dias = Math.floor(diferenca / (1000 * 60 * 60 * 24));
+            document.getElementById('contador').innerText = dias;
+        }
+
+        function resetarContador() {
+            ultimaEncomenda = new Date().setHours(0,0,0,0); // Reseta para hoje à meia-noite
+            localStorage.setItem('ultimaEncomenda', ultimaEncomenda);
+            calcularDias();
+        }
+
+        // Calcular dias desde a última encomenda
+        calcularDias();
+
+    </script>
+</body>
+</html>
